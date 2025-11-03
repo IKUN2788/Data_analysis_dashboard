@@ -1,0 +1,384 @@
+/* 赛博朋克风格主题 */
+:root {
+  --bg: #0a0f1e;
+  --bg-secondary: #0f1730;
+  --panel: #0d1326;
+  --text: #d7e3ff;
+  --muted: #7fa7ff;
+  --neon-cyan: #00eaff;
+  --neon-pink: #ff00e6;
+  --neon-purple: #7a5cff;
+  --neon-green: #00ff9c;
+  --warning: #ffb02e;
+  --danger: #ff4d6d;
+  --success: #1dd1a1;
+  --glow-weak: 0 0 8px rgba(122, 92, 255, 0.4);
+  --glow-strong: 0 0 16px rgba(0, 234, 255, 0.8), 0 0 32px rgba(0, 234, 255, 0.3);
+}
+
+* { 
+  box-sizing: border-box; 
+  outline: none !important;
+}
+
+/* 重置所有可能的红色轮廓 */
+*:focus, *:active, *:hover {
+  outline: none !important;
+}
+
+/* 移除浏览器默认样式 */
+input, button, select, textarea, canvas {
+  outline: none !important;
+}
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: 'Orbitron', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Microsoft YaHei', sans-serif;
+  color: var(--text);
+  background: radial-gradient(1200px 800px at 70% -10%, rgba(0, 234, 255, 0.1), transparent 60%),
+              radial-gradient(900px 700px at 10% 110%, rgba(255, 0, 230, 0.08), transparent 60%),
+              var(--bg);
+  overflow: hidden;
+}
+
+.container {
+  position: relative;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 90px 1fr 40px;
+  gap: 12px;
+  padding: 12px;
+}
+
+/* 背景网格与粒子 */
+.bg-grid::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: linear-gradient(rgba(127, 167, 255, 0.06) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(127, 167, 255, 0.06) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+.bg-particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+.particle {
+  position: absolute; width: 4px; height: 4px; border-radius: 50%;
+  background: var(--neon-cyan); box-shadow: var(--glow-strong);
+  animation: float 12s infinite ease-in-out;
+}
+.particle:nth-child(1){ left: 10%; top: 20%; }
+.particle:nth-child(2){ left: 35%; top: 70%; animation-duration: 14s; }
+.particle:nth-child(3){ left: 60%; top: 30%; animation-duration: 10s; }
+.particle:nth-child(4){ left: 80%; top: 60%; animation-duration: 16s; }
+.particle:nth-child(5){ left: 20%; top: 80%; animation-duration: 18s; }
+@keyframes float { 0%,100%{ transform: translateY(0);} 50%{ transform: translateY(-15px);} }
+
+/* 头部 */
+.header {
+  position: relative;
+  display: grid; grid-template-columns: 1fr auto; align-items: center;
+  padding: 12px 16px; border: 1px solid rgba(127, 167, 255, 0.2);
+  background: linear-gradient(180deg, rgba(13, 19, 38, 0.9), rgba(13, 19, 38, 0.6));
+  box-shadow: var(--glow-weak);
+  z-index: 1;
+}
+.title-container { display: flex; flex-direction: column; gap: 6px; }
+.main-title { margin: 0; font-size: 28px; letter-spacing: 4px; color: var(--text); }
+.subtitle { color: var(--muted); font-size: 12px; opacity: .8; }
+
+.glitch { position: relative; display: inline-block; color: var(--neon-cyan); text-shadow: var(--glow-strong); }
+.glitch::before, .glitch::after{
+  content: attr(data-text); position: absolute; left: 0; top: 0; width: 100%; overflow: hidden;
+}
+.glitch::before{ left: 2px; text-shadow: -2px 0 var(--neon-pink); animation: glitch 2s infinite linear alternate-reverse; }
+.glitch::after{ left: -2px; text-shadow: -2px 0 var(--neon-purple); animation: glitch 3s infinite linear alternate; }
+@keyframes glitch { 0%{ clip-path: inset(0 0 80% 0);} 20%{ clip-path: inset(10% 0 60% 0);} 40%{ clip-path: inset(40% 0 30% 0);} 60%{ clip-path: inset(70% 0 10% 0);} 80%{ clip-path: inset(20% 0 50% 0);} 100%{ clip-path: inset(0 0 80% 0);} }
+
+.header-stats { display: flex; gap: 16px; align-items: center; }
+.stat-item { display: flex; flex-direction: column; align-items: flex-end; }
+.stat-label { color: var(--muted); font-size: 11px; }
+.stat-value { font-size: 14px; color: var(--text); }
+.stat-value.online { color: var(--success); text-shadow: 0 0 8px rgba(29,209,161,.6); }
+
+/* 主体布局 */
+.main-content {
+  display: grid; grid-template-columns: 1.2fr 2fr 1.2fr; gap: 12px; z-index: 1;
+}
+.left-column, .center-column, .right-column { display: flex; flex-direction: column; gap: 12px; }
+
+.panel {
+  background: linear-gradient(180deg, rgba(13, 19, 38, 0.9), rgba(13, 19, 38, 0.6));
+  border: 1px solid rgba(127, 167, 255, 0.2);
+  border-radius: 10px;
+  box-shadow: var(--glow-weak);
+  padding: 12px;
+}
+.panel-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.panel-header h3 { margin: 0; font-size: 16px; color: var(--neon-cyan); text-shadow: 0 0 8px rgba(0,234,255,.5); }
+.panel-status { width: 10px; height: 10px; border-radius: 2px; }
+.panel-status.active { background: var(--neon-green); box-shadow: 0 0 10px rgba(0,255,156,.8); }
+.panel-status.warning { background: var(--warning); box-shadow: 0 0 10px rgba(255,176,46,.8); }
+
+/* 数据流面板 */
+.data-stream { position: relative; height: 120px; display: grid; grid-template-rows: repeat(4, 1fr); gap: 10px; }
+.stream-line {
+  position: relative; height: 2px; background: rgba(127,167,255,0.2);
+}
+.stream-line::after {
+  content: ''; position: absolute; left: -20%; top: -3px; width: 20%; height: 8px;
+  background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+  animation: scan 2.8s linear infinite;
+}
+.stream-line:nth-child(2)::after{ animation-duration: 3.2s; }
+.stream-line:nth-child(3)::after{ animation-duration: 2.4s; }
+.stream-line:nth-child(4)::after{ animation-duration: 3.6s; }
+@keyframes scan { 0%{ left: -20%; } 100%{ left: 100%; } }
+
+/* 性能指标 */
+.performance-metrics { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.metric { display: grid; grid-template-columns: 100px 1fr 60px; align-items: center; gap: 10px; }
+.metric-label { color: var(--muted); font-size: 12px; }
+.metric-bar { height: 8px; background: rgba(127,167,255,0.15); border-radius: 6px; overflow: hidden; }
+.metric-fill { height: 100%; background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan)); box-shadow: var(--glow-strong); }
+.metric-value { text-align: right; color: var(--text); font-size: 12px; }
+
+/* 安全告警 */
+.security-alerts { display: flex; flex-direction: column; gap: 8px; }
+.alert {
+  display: grid; grid-template-columns: 50px 1fr 80px; align-items: center; gap: 8px;
+  padding: 8px; border: 1px solid rgba(127,167,255,0.15); border-radius: 8px; background: rgba(10,15,30,0.6);
+}
+.alert .alert-type { font-weight: 700; }
+.alert.high { border-color: rgba(255,77,109,.4); box-shadow: 0 0 10px rgba(255,77,109,.3); }
+.alert.medium { border-color: rgba(255,176,46,.4); box-shadow: 0 0 10px rgba(255,176,46,.2); }
+.alert.low { border-color: rgba(0,255,156,.4); box-shadow: 0 0 10px rgba(0,255,156,.2); }
+.alert-time { color: var(--muted); font-size: 12px; text-align: right; }
+
+/* 图表面板 */
+.chart-controls { display: flex; gap: 8px; }
+.chart-btn {
+  background: transparent; color: var(--text); border: 1px solid rgba(127,167,255,0.3);
+  padding: 6px 10px; border-radius: 6px; cursor: pointer; transition: all .2s;
+}
+.chart-btn:hover { border-color: var(--neon-cyan); box-shadow: var(--glow-strong); }
+.chart-btn.active { color: var(--neon-cyan); box-shadow: var(--glow-strong); }
+.chart-container { position: relative; height: 340px; }
+
+/* 地图面板（装饰性） */
+.map-panel {
+    height: 320px; /* 设置固定高度 */
+}
+
+/* 世界地图样式 */
+.world-map {
+    position: relative;
+    width: 100%;
+    height: 280px; /* 增加地图高度 */
+    background: 
+        /* 明显的网格线 */
+        linear-gradient(90deg, rgba(0, 255, 255, 0.3) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(0, 255, 255, 0.3) 1px, transparent 1px),
+        
+        /* 亚洲大陆 - 调整位置和尺寸 */
+        radial-gradient(ellipse 140px 100px at 70% 40%, 
+            transparent 48%, 
+            rgba(0, 255, 255, 0.8) 50%, 
+            rgba(0, 255, 255, 0.4) 52%, 
+            transparent 54%),
+        
+        /* 北美洲 - 调整位置和尺寸 */
+        radial-gradient(ellipse 100px 80px at 20% 35%, 
+            transparent 48%, 
+            rgba(0, 255, 255, 0.8) 50%, 
+            rgba(0, 255, 255, 0.4) 52%, 
+            transparent 54%),
+        
+        /* 欧洲 - 调整位置 */
+        radial-gradient(ellipse 50px 40px at 45% 30%, 
+            transparent 48%, 
+            rgba(0, 255, 255, 0.8) 50%, 
+            rgba(0, 255, 255, 0.4) 52%, 
+            transparent 54%),
+        
+        /* 非洲 - 调整位置和尺寸 */
+        radial-gradient(ellipse 60px 100px at 50% 60%, 
+            transparent 48%, 
+            rgba(0, 255, 255, 0.8) 50%, 
+            rgba(0, 255, 255, 0.4) 52%, 
+            transparent 54%),
+        
+        /* 南美洲 - 调整位置和尺寸 */
+        radial-gradient(ellipse 50px 90px at 25% 75%, 
+            transparent 48%, 
+            rgba(0, 255, 255, 0.8) 50%, 
+            rgba(0, 255, 255, 0.4) 52%, 
+            transparent 54%),
+        
+        /* 澳洲 - 调整位置 */
+        radial-gradient(ellipse 45px 35px at 75% 85%, 
+            transparent 48%, 
+            rgba(0, 255, 255, 0.8) 50%, 
+            rgba(0, 255, 255, 0.4) 52%, 
+            transparent 54%),
+        
+        /* 海洋纹理 - 更明显 */
+        repeating-linear-gradient(45deg, 
+            rgba(0, 100, 150, 0.1) 0px, 
+            rgba(0, 100, 150, 0.1) 2px, 
+            transparent 2px, 
+            transparent 8px),
+        
+        /* 基础背景 - 深色海洋 */
+        radial-gradient(circle at center, 
+            rgba(0, 50, 100, 0.3) 0%, 
+            rgba(0, 20, 50, 0.5) 100%);
+    
+    background-size: 
+        25px 25px,   /* 网格大小 */
+        25px 25px,   /* 网格大小 */
+        280px 200px, /* 亚洲 */
+        200px 160px, /* 北美 */
+        100px 80px,  /* 欧洲 */
+        120px 200px, /* 非洲 */
+        100px 180px, /* 南美 */
+        90px 70px,   /* 澳洲 */
+        20px 20px,   /* 海洋纹理 */
+        100% 100%;   /* 基础背景 */
+    
+    border: 2px solid rgba(0, 255, 255, 0.5);
+    border-radius: 8px;
+    box-shadow: 
+        inset 0 0 20px rgba(0, 255, 255, 0.2),
+        0 0 30px rgba(0, 255, 255, 0.1);
+}
+.world-map::before {
+  content: ''; position: absolute; inset: 0;
+  background: 
+    /* 大气层效果 */
+    radial-gradient(800px 400px at 30% 20%, rgba(0,234,255,.08), transparent 60%),
+    radial-gradient(600px 400px at 70% 80%, rgba(255,0,230,.08), transparent 60%),
+    /* 网格线 */
+    linear-gradient(90deg, transparent 48%, rgba(127,167,255,0.05) 50%, transparent 52%),
+    linear-gradient(0deg, transparent 48%, rgba(127,167,255,0.05) 50%, transparent 52%);
+  opacity: .6;
+}
+.world-map::after {
+  content: ''; position: absolute; inset: 0;
+  background: 
+    /* 经纬线效果 */
+    repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(127,167,255,0.08) 40px, rgba(127,167,255,0.08) 41px),
+    repeating-linear-gradient(0deg, transparent, transparent 30px, rgba(127,167,255,0.08) 30px, rgba(127,167,255,0.08) 31px);
+  opacity: .4;
+}
+.map-point { position: absolute; transform: translate(-50%, -50%); z-index: 10; }
+.point-pulse { width: 8px; height: 8px; background: var(--neon-cyan); border-radius: 50%; box-shadow: var(--glow-strong); animation: pulse 2s infinite; }
+@keyframes pulse { 0%{ transform: scale(1);} 50%{ transform: scale(1.6);} 100%{ transform: scale(1);} }
+.point-info { margin-top: 6px; padding: 4px 6px; font-size: 12px; border: 1px solid rgba(127,167,255,.3); border-radius: 6px; background: rgba(13,19,38,.8); }
+.location { color: var(--neon-cyan); }
+.count { color: var(--text); }
+
+/* 右侧指标卡片 */
+.key-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.metric-card {
+  border: 1px solid rgba(127,167,255,.2); border-radius: 10px; padding: 10px; background: rgba(13,19,38,.7);
+  transition: transform .2s; position: relative; overflow: hidden;
+}
+.metric-card::after {
+  content: ''; position: absolute; left: -40%; top: -40%; width: 80%; height: 80%; border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,234,255,.06), transparent 60%);
+}
+.metric-card:hover { transform: translateY(-3px); }
+.metric-title { color: var(--muted); font-size: 12px; }
+.metric-number { font-size: 20px; color: var(--text); text-shadow: 0 0 8px rgba(122, 92, 255, 0.5); }
+.metric-trend { font-size: 12px; }
+.metric-trend.up { color: var(--success); text-shadow: 0 0 8px rgba(29,209,161,.5); }
+.metric-trend.down { color: var(--danger); text-shadow: 0 0 8px rgba(255,77,109,.5); }
+
+/* 服务器网格 */
+.server-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.server-node {
+  border: 1px solid rgba(127,167,255,.2); border-radius: 8px; padding: 8px; background: rgba(13,19,38,.6);
+}
+.server-node .node-id { color: var(--muted); font-size: 12px; }
+.server-node .node-status { font-weight: 700; }
+.server-node.online .node-status { color: var(--success); }
+.server-node.warning .node-status { color: var(--warning); }
+.server-node.offline .node-status { color: var(--danger); }
+.node-load { font-size: 12px; color: var(--text); opacity: .85; }
+
+/* 数据库监控 */
+.database-stats { display: flex; flex-direction: column; gap: 8px; }
+.db-item { display: grid; grid-template-columns: 1fr auto auto; gap: 10px; align-items: center; padding: 8px; border: 1px solid rgba(127,167,255,.15); border-radius: 8px; }
+.db-name { color: var(--neon-cyan); }
+.db-metric { color: var(--text); font-size: 12px; margin-right: 8px; }
+.db-status { padding: 3px 6px; border-radius: 4px; font-size: 12px; }
+.db-status.online { background: rgba(29,209,161,.15); color: var(--success); border: 1px solid rgba(29,209,161,.4); }
+
+/* 底部状态栏 */
+.footer {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center; padding: 0 10px;
+  border: 1px solid rgba(127, 167, 255, 0.2); background: rgba(13,19,38,.8); box-shadow: var(--glow-weak);
+  z-index: 1;
+}
+.footer-left, .footer-center, .footer-right { display: flex; align-items: center; gap: 12px; }
+.network-status { display: flex; align-items: center; gap: 8px; }
+.network-indicator { width: 10px; height: 10px; background: var(--success); box-shadow: 0 0 10px rgba(29,209,161,.8); border-radius: 2px; }
+
+/* 响应式 */
+@media (max-width: 1400px) {
+  .main-content { grid-template-columns: 1fr 1.6fr 1fr; }
+}
+@media (max-width: 1100px) {
+  .container { grid-template-rows: auto 1fr auto; }
+  .main-content { grid-template-columns: 1fr; }
+}
+
+/* 覆盖：使用真实 SVG 世界地图替换伪背景 */
+.world-map {
+    position: relative;
+    width: 100%;
+    height: 280px;
+    background:
+        linear-gradient(90deg, rgba(127, 167, 255, 0.12) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(127, 167, 255, 0.12) 1px, transparent 1px),
+        radial-gradient(circle at center, rgba(0, 20, 50, 0.5) 0%, rgba(10, 15, 30, 0.9) 100%);
+    background-size: 25px 25px, 25px 25px, 100% 100%;
+    border: 1px solid rgba(0,234,255,0.3);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* 确保SVG备用图片正确显示 */
+.world-map img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 90%;
+  max-height: 90%;
+  opacity: 0.8;
+  filter: 
+    drop-shadow(0 0 10px rgba(0, 234, 255, 0.5))
+    hue-rotate(180deg)
+    brightness(1.2);
+  z-index: 1;
+}
+
+.world-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0.85;
+  filter: drop-shadow(0 0 8px rgba(0, 234, 255, 0.6));
+  z-index: 1;
+}
+.world-map #world-geo{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2; /* 覆盖在背景之上 */
+}

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>赛博朋克数据分析大屏</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- 字体多CDN备选方案 -->
+    <link href="https://fonts.loli.net/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" onerror="this.onerror=null;this.href='https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap'">
+    <!-- Chart.js 多CDN备选方案 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js" onerror="this.onerror=null;this.src='https://cdn.bootcdn.net/ajax/libs/Chart.js/4.4.0/chart.umd.js'"></script>
+    <!-- ECharts 世界地图（多CDN备选） -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js" onerror="this.onerror=null;this.src='https://cdn.bootcdn.net/ajax/libs/echarts/5.5.0/echarts.min.js'"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- 头部标题区域 -->
+        <header class="header">
+            <div class="title-container">
+                <h1 class="main-title">
+                    <span class="glitch" data-text="CYBER DATA CENTER">CYBER DATA CENTER</span>
+                </h1>
+                <div class="subtitle">数据分析大屏监控系统 v2.1</div>
+            </div>
+            <div class="header-stats">
+                <div class="stat-item">
+                    <span class="stat-label">系统状态</span>
+                    <span class="stat-value online">在线</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">当前时间</span>
+                    <span class="stat-value" id="current-time"></span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">连接数</span>
+                    <span class="stat-value" id="connection-count">1,247</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- 主要内容区域 -->
+        <main class="main-content">
+            <!-- 左侧列 -->
+            <div class="left-column">
+                <!-- 实时数据流 -->
+                <div class="panel data-stream-panel">
+                    <div class="panel-header">
+                        <h3>实时数据流</h3>
+                        <div class="panel-status active"></div>
+                    </div>
+                    <div class="data-stream">
+                        <div class="stream-line"></div>
+                        <div class="stream-line"></div>
+                        <div class="stream-line"></div>
+                        <div class="stream-line"></div>
+                    </div>
+                </div>
+
+                <!-- 系统性能监控 -->
+                <div class="panel performance-panel">
+                    <div class="panel-header">
+                        <h3>系统性能</h3>
+                        <div class="panel-status active"></div>
+                    </div>
+                    <div class="performance-metrics">
+                        <div class="metric">
+                            <div class="metric-label">CPU使用率</div>
+                            <div class="metric-bar">
+                                <div class="metric-fill" style="width: 68%"></div>
+                            </div>
+                            <div class="metric-value">68%</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">内存使用</div>
+                            <div class="metric-bar">
+                                <div class="metric-fill" style="width: 45%"></div>
+                            </div>
+                            <div class="metric-value">45%</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">磁盘I/O</div>
+                            <div class="metric-bar">
+                                <div class="metric-fill" style="width: 32%"></div>
+                            </div>
+                            <div class="metric-value">32%</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">网络带宽</div>
+                            <div class="metric-bar">
+                                <div class="metric-fill" style="width: 78%"></div>
+                            </div>
+                            <div class="metric-value">78%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 安全威胁监控 -->
+                <div class="panel security-panel">
+                    <div class="panel-header">
+                        <h3>安全威胁</h3>
+                        <div class="panel-status warning"></div>
+                    </div>
+                    <div class="security-alerts">
+                        <div class="alert high">
+                            <span class="alert-type">高危</span>
+                            <span class="alert-message">检测到异常登录尝试</span>
+                            <span class="alert-time">2分钟前</span>
+                        </div>
+                        <div class="alert medium">
+                            <span class="alert-type">中危</span>
+                            <span class="alert-message">防火墙规则更新</span>
+                            <span class="alert-time">5分钟前</span>
+                        </div>
+                        <div class="alert low">
+                            <span class="alert-type">低危</span>
+                            <span class="alert-message">日志文件轮转</span>
+                            <span class="alert-time">10分钟前</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 中间列 -->
+            <div class="center-column">
+                <!-- 主要图表区域 -->
+                <div class="panel chart-panel">
+                    <div class="panel-header">
+                        <h3>数据分析图表</h3>
+                        <div class="chart-controls">
+                            <button class="chart-btn active" data-chart="line">趋势图</button>
+                            <button class="chart-btn" data-chart="bar">柱状图</button>
+                            <button class="chart-btn" data-chart="doughnut">饼图</button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="main-chart"></canvas>
+                    </div>
+                </div>
+
+                <!-- 地理位置分布 -->
+                <div class="panel map-panel">
+                    <div class="panel-header">
+                        <h3>全球访问分布</h3>
+                        <div class="panel-status active"></div>
+                    </div>
+                    <div class="world-map">
+                        <img class="world-bg" src="world.svg" alt="World Map" />
+                        <div id="world-geo"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧列 -->
+            <div class="right-column">
+                <!-- 核心指标 -->
+                <div class="panel metrics-panel">
+                    <div class="panel-header">
+                        <h3>核心指标</h3>
+                        <div class="panel-status active"></div>
+                    </div>
+                    <div class="key-metrics">
+                        <div class="metric-card">
+                            <div class="metric-title">总访问量</div>
+                            <div class="metric-number" id="total-visits">2,458,769</div>
+                            <div class="metric-trend up">+12.5%</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-title">活跃用户</div>
+                            <div class="metric-number" id="active-users">15,247</div>
+                            <div class="metric-trend up">+8.3%</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-title">转化率</div>
+                            <div class="metric-number" id="conversion-rate">24.8%</div>
+                            <div class="metric-trend down">-2.1%</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-title">平均响应时间</div>
+                            <div class="metric-number" id="response-time">145ms</div>
+                            <div class="metric-trend up">+5.2%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 服务器状态 -->
+                <div class="panel server-panel">
+                    <div class="panel-header">
+                        <h3>服务器集群</h3>
+                        <div class="panel-status active"></div>
+                    </div>
+                    <div class="server-grid">
+                        <div class="server-node online">
+                            <div class="node-id">NODE-01</div>
+                            <div class="node-status">在线</div>
+                            <div class="node-load">CPU: 45%</div>
+                        </div>
+                        <div class="server-node online">
+                            <div class="node-id">NODE-02</div>
+                            <div class="node-status">在线</div>
+                            <div class="node-load">CPU: 32%</div>
+                        </div>
+                        <div class="server-node warning">
+                            <div class="node-id">NODE-03</div>
+                            <div class="node-status">警告</div>
+                            <div class="node-load">CPU: 89%</div>
+                        </div>
+                        <div class="server-node online">
+                            <div class="node-id">NODE-04</div>
+                            <div class="node-status">在线</div>
+                            <div class="node-load">CPU: 67%</div>
+                        </div>
+                        <div class="server-node offline">
+                            <div class="node-id">NODE-05</div>
+                            <div class="node-status">离线</div>
+                            <div class="node-load">CPU: --</div>
+                        </div>
+                        <div class="server-node online">
+                            <div class="node-id">NODE-06</div>
+                            <div class="node-status">在线</div>
+                            <div class="node-load">CPU: 28%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 数据库监控 -->
+                <div class="panel database-panel">
+                    <div class="panel-header">
+                        <h3>数据库监控</h3>
+                        <div class="panel-status active"></div>
+                    </div>
+                    <div class="database-stats">
+                        <div class="db-item">
+                            <div class="db-name">主数据库</div>
+                            <div class="db-metrics">
+                                <span class="db-metric">QPS: 1,247</span>
+                                <span class="db-metric">连接: 89/200</span>
+                            </div>
+                            <div class="db-status online">正常</div>
+                        </div>
+                        <div class="db-item">
+                            <div class="db-name">从数据库1</div>
+                            <div class="db-metrics">
+                                <span class="db-metric">QPS: 892</span>
+                                <span class="db-metric">连接: 45/200</span>
+                            </div>
+                            <div class="db-status online">正常</div>
+                        </div>
+                        <div class="db-item">
+                            <div class="db-name">缓存集群</div>
+                            <div class="db-metrics">
+                                <span class="db-metric">命中率: 94.2%</span>
+                                <span class="db-metric">内存: 8.5GB</span>
+                            </div>
+                            <div class="db-status online">正常</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 底部状态栏 -->
+        <footer class="footer">
+            <div class="footer-left">
+                <span class="footer-item">© 2024 Cyber Data Analytics</span>
+                <span class="footer-item">Version 2.1.0</span>
+            </div>
+            <div class="footer-center">
+                <div class="network-status">
+                    <div class="network-indicator"></div>
+                    <span>网络状态正常</span>
+                </div>
+            </div>
+            <div class="footer-right">
+                <span class="footer-item">最后更新: <span id="last-update"></span></span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- 背景装饰元素 -->
+    <div class="bg-grid"></div>
+    <div class="bg-particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
