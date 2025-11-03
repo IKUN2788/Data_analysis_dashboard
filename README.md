@@ -1,3 +1,5 @@
+<img width="1902" height="1022" alt="image" src="https://github.com/user-attachments/assets/5a606cf0-afc0-4b38-abb8-e90cfdd0e6fc" />
+
 # 🌟 赛博朋克风格数据分析大屏项目
 
 一个充满未来科技感的数据可视化大屏展示系统，融合了赛博朋克美学与现代数据分析需求。
