@@ -9,6 +9,9 @@
 ## ✨ 项目概述
 
 在这个信息爆炸的时代，数据可视化不仅仅是信息的展示，更是一种艺术表达。本项目将**赛博朋克美学**与**数据分析**完美结合，创造出一个既实用又极具视觉冲击力的大屏监控系统。
+[项目预览-请点击我](https://project.ikun.space/daping2/)
+[项目预览-请点击我](https://project.ikun.space/daping2/)
+[项目预览-请点击我](https://project.ikun.space/daping2/)
 
 ### 🎨 设计理念
 
